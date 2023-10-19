@@ -164,6 +164,7 @@ public class Main {
 
     /**
      * Prints the content of the given symbol table.
+     * Really just used to check that the pokemon were getting added correctly.
      *
      * @param st The symbol table to print.
      */
