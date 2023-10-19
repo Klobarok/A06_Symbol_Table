@@ -21,7 +21,7 @@ public class PokemonCSVReader {
      * @throws IOException if an error occurs while reading the file
      */
     public static List<Pokemon> readPokemonFromCSV(String filename) throws IOException {
-        List<Pokemon> pokemons = new ArrayList<>();
+        List<Pokemon> pokemonArrayList = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             // Skip header
             reader.readLine();
@@ -38,9 +38,9 @@ public class PokemonCSVReader {
                 int specialDefense = Integer.parseInt(values[7]);
                 int speed = Integer.parseInt(values[8]);
                 Pokemon pokemon = new Pokemon(id, name, type, hp, attack, defense, specialAttack, specialDefense, speed);
-                pokemons.add(pokemon);
+                pokemonArrayList.add(pokemon);
             }
         }
-        return pokemons;
+        return pokemonArrayList;
     }
 }
