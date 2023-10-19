@@ -6,7 +6,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Provides utility methods to read Pokémon data from a CSV file.
+ *
+ * @author YourName
+ * @version 1.0
+ */
 public class PokemonCSVReader {
+    /**
+     * Reads Pokémon data from the specified CSV file and returns a list of Pokémon objects.
+     *
+     * @param filename the path to the CSV file
+     * @return a list of Pokémon objects parsed from the CSV file
+     * @throws IOException if an error occurs while reading the file
+     */
     public static List<Pokemon> readPokemonFromCSV(String filename) throws IOException {
         List<Pokemon> pokemons = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
