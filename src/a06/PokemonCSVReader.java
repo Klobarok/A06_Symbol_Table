@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Provides utility methods to read Pokémon data from a CSV file.
  *
- * @author YourName
+ * @author Joseph Peat
  * @version 1.0
  */
 public class PokemonCSVReader {
