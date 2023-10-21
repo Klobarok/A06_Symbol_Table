@@ -24,18 +24,18 @@ public class Main {
 //            printSymbolTable(symbolTable);
 
 //            // Execute challenges related to the symbol table
-//            challengePut(symbolTable);
-//            challengeGet(symbolTable);
-//            challengeDelete(symbolTable);
-//            challengeContains(symbolTable);
-//            challengeIsEmpty(symbolTable);
-//            challengeSize(symbolTable);
-//            challengeMinMax(symbolTable);
-//            challengeFloorCeiling(symbolTable);
-//            challengeRank(symbolTable);
-//            challengeSelect(symbolTable);
-//            challengeDeleteMinMax(symbolTable);
-            challengeKeys(symbolTable);
+		    challengePut(symbolTable);
+		    challengeGet(symbolTable);
+		    challengeDelete(symbolTable);
+		    challengeContains(symbolTable);
+		    challengeIsEmpty(symbolTable);
+		    challengeSize(symbolTable);
+		    challengeMinMax(symbolTable);
+		   challengeFloorCeiling(symbolTable);           
+		   challengeRank(symbolTable);
+		    challengeSelect(symbolTable);
+		    challengeDeleteMinMax(symbolTable);
+		    challengeKeys(symbolTable);
 
         } catch (IOException e) {
             System.out.println("Error reading the CSV file: " + e.getMessage());
@@ -48,7 +48,14 @@ public class Main {
      * @param st The symbol table to operate on.
      */
     public static void challengePut(PokemonSymbolTable st) {
-        // TODO: Implement this challenge
+    	System.out.println("Testing 'put' operation:");
+    	Pokemon testPokemon = new Pokemon(152, "testPokemon","Normal", 100, 200, 300, 400, 500, 600);
+    	
+    	st.put(152, testPokemon);
+    	System.out.println("Test Pokemon successfully addeed.");
+    	printSymbolTable(st);
+    	
+       
     }
 
     /**
@@ -57,7 +64,13 @@ public class Main {
      * @param st The symbol table to operate on.
      */
     public static void challengeGet(PokemonSymbolTable st) {
-        // TODO: Implement this challenge
+        System.out.println("Testing get() function:");
+        Pokemon pokemon123 = st.get(123);
+        
+        System.out.println("Pokemon #123: ");
+        System.out.print(pokemon123);
+        System.out.println("----------------------------------");
+       
     }
 
     /**
@@ -66,7 +79,12 @@ public class Main {
      * @param st The symbol table to operate on.
      */
     public static void challengeDelete(PokemonSymbolTable st) {
-        // TODO: Implement this challenge
+        System.out.println("Testing delete() function: ");
+        System.out.println("Will delete Pokemon 152");
+        st.delete(152);
+        System.out.println("Deletion complete, printing table:");
+        printSymbolTable(st);
+        System.out.println("----------------------------------");
     }
 
     /**
@@ -75,7 +93,15 @@ public class Main {
      * @param st The symbol table to operate on.
      */
     public static void challengeContains(PokemonSymbolTable st) {
-        // TODO: Implement this challenge
+        System.out.println("Testing contains() function: ");
+        
+        System.out.println("Does the table contain Pokemon # 133?");
+        System.out.println(st.contains(133));
+        System.out.println();
+        System.out.println("Does the table contain Pokemon @ 152?");
+        System.out.println(st.contains(152));
+        
+        System.out.println("----------------------------------");
     }
 
     /**
@@ -84,7 +110,19 @@ public class Main {
      * @param st The symbol table to operate on.
      */
     public static void challengeIsEmpty(PokemonSymbolTable st) {
-        // TODO: Implement this challenge
+        
+    	System.out.println("Testing isEmpty() function: ");
+        
+        System.out.println("Is the table Empty?");
+        System.out.println(st.isEmpty());
+        System.out.println();
+        System.out.println("We create a new empty table and test it");
+        PokemonSymbolTable emptyTable = new PokemonSymbolTable();
+        System.out.println("Is the table Empty?");
+        System.out.println(emptyTable.isEmpty());
+        
+       
+    	System.out.println("----------------------------------");
     }
 
     /**
@@ -93,7 +131,9 @@ public class Main {
      * @param st The symbol table to operate on.
      */
     public static void challengeSize(PokemonSymbolTable st) {
-        // TODO: Implement this challenge
+        System.out.println("Testing the size: ");
+        System.out.println("What is the size of the table?: " + st.size());
+    	System.out.println("----------------------------------");
     }
 
     /**
@@ -102,7 +142,10 @@ public class Main {
      * @param st The symbol table to operate on.
      */
     public static void challengeMinMax(PokemonSymbolTable st) {
-        // TODO: Implement this challenge
+        System.out.println("Testing the min and max:");
+        System.out.println("What is the min key?: "+ st.min());
+        System.out.println("What is the max key?: " + st.max());
+    	 System.out.println("----------------------------------");
     }
 
     /**
@@ -111,7 +154,11 @@ public class Main {
      * @param st The symbol table to operate on.
      */
     public static void challengeFloorCeiling(PokemonSymbolTable st) {
-        // TODO: Implement this challenge
+        System.out.println("Testing the Floor and Ceiling Functions: ");
+        
+        System.out.println("What is the floor of 142?: " + st.floor(142));
+        System.out.println("What is the ceiling of 100?: " + st.ceiling(100));
+    	 System.out.println("----------------------------------");
     }
 
     /**
@@ -120,7 +167,10 @@ public class Main {
      * @param st The symbol table to operate on.
      */
     public static void challengeRank(PokemonSymbolTable st) {
+    	System.out.println(" Testing the rank function: ");
+    	System.out.println("What is the rank of 100?:  "+ st.rank(100));
         // TODO: Implement this challenge
+    	 System.out.println("----------------------------------");
     }
 
     /**
@@ -129,7 +179,10 @@ public class Main {
      * @param st The symbol table to operate on.
      */
     public static void challengeSelect(PokemonSymbolTable st) {
-        // TODO: Implement this challenge
+    	System.out.println("Testing the Select function");
+    	System.out.println("Which pokemon has ID 100?: "+ st.select(100));
+        
+    	 System.out.println("----------------------------------");
     }
 
     /**
@@ -138,7 +191,13 @@ public class Main {
      * @param st The symbol table to operate on.
      */
     public static void challengeDeleteMinMax(PokemonSymbolTable st) {
-        // TODO: Implement this challenge
+        System.out.println("Testing Delete Min and Max: ");
+        System.out.println("Delete min and max");
+        st.deleteMin();
+        st.deleteMax();
+        System.out.println("Deletion complete, here's the printed table. ");
+        printSymbolTable(st);
+    	 System.out.println("----------------------------------");
     }
 
     /**

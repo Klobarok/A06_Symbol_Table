@@ -44,7 +44,10 @@ public class Pokemon {
     }
 
 
-    public int getId() {
+
+
+
+	public int getId() {
         return id;
     }
 
@@ -115,5 +118,11 @@ public class Pokemon {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
+    @Override
+	public String toString() {
+		return "Pokemon [id=" + id + ", name=" + name + ", type=" + type + ", hp=" + hp + ", attack=" + attack
+				+ ", defense=" + defense + ", specialAttack=" + specialAttack + ", specialDefense=" + specialDefense
+				+ ", speed=" + speed + "]";
+	}
 
 }
