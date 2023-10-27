@@ -1,172 +1,91 @@
 package a06;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import edu.princeton.cs.algs4.RedBlackBST;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PokemonSymbolTable {
+    private RedBlackBST<Integer, Pokemon> rbst;
 
-    private Map<Integer, Pokemon> table = new HashMap<>();
-
-    public Pokemon get(Integer key) {
-        return table.get(key);
+    public PokemonSymbolTable() {
+        this.rbst = new RedBlackBST<>();
     }
 
-    public void put(Integer key, Pokemon value) {
-        table.put(key, value);
+    // Add a Pokemon to the symbol table
+    public void put(int id, Pokemon pokemon) {
+        rbst.put(pokemon.getId(), pokemon);
     }
 
-    public Set<Integer> keys() {
-        return table.keySet();
+    // Retrieve a Pokemon by ID
+    public Pokemon get(int id) {
+        return rbst.get(id);
     }
 
-    public void delete(Integer key) {
-    	if(!table.containsKey(key)) {
-    		throw new IllegalArgumentException("Key not found in table.");
-    	}
-        table.remove(key);
+    // Delete a Pokemon by ID
+    public void delete(int id) {
+        rbst.delete(id);
     }
 
-    public boolean contains(Integer key) {
-        
-        return table.containsKey(key);
+    // Check if a Pokemon ID exists in the table
+    public boolean contains(int id) {
+        return rbst.contains(id);
     }
 
+    // Check if the symbol table is empty
     public boolean isEmpty() {
-        
-        return table.isEmpty();
+        return rbst.isEmpty();
     }
 
+    // Get the size of the symbol table
     public int size() {
-        
-        return table.size();
+        return rbst.size();
     }
 
-    public Integer min() {
-    	if(table.isEmpty()) {
-    		return null;
-    	}
-    	// cycle through all of the keys and return the smallest one. 
-    	Integer minKey = Integer.MAX_VALUE; // initialize it to the max value of an Integer
-    	for(Integer key : table.keySet()) { // loop through all key values to find min. 
-    		if(key < minKey) {
-    			minKey = key;
-    		}
-    	}
-        return minKey;
+    // Get the Pokemon with the smallest ID
+    public Pokemon min() {
+        return rbst.get(rbst.min());
     }
 
-    public Integer max() {
-    	if(table.isEmpty()) {
-    		return null;
-    	}
-    	// cycle through all of the keys and return the smallest one. 
-    	Integer maxKey = Integer.MIN_VALUE; // initialize it to the max value of an Integer
-    	for(Integer key : table.keySet()) { // loop through all key values to find min. 
-    		if(key > maxKey) {
-    			maxKey = key;
-    		}
-    	}
-        return maxKey;
+    // Get the Pokemon with the largest ID
+    public Pokemon max() {
+        return rbst.get(rbst.max());
     }
-    /**
-     * The 'floor' method to fetch the Pokémon whose ID is just below a given ID.
-     * @param key
-     * @return floorKey
-     */
-    public Integer floor(Integer key) {
-    	if(!table.containsKey(key)) {
-    		throw new IllegalArgumentException("Key not found in table.");
-    	}
-    	// loop through and find a key value that is less than the key argument. 
-    	if(table.isEmpty()) return null;
-    	
-    	Integer floorKey = null;
-    	
-    	for(Integer currentKey : table.keySet()) {
-    		// If the current key is less than the given key and (either we haven't found 
-    		// a floor key yet or the current key is greater than the previiously found floor key
-    		if(currentKey < key && (floorKey == null || currentKey > floorKey)) {
-    			floorKey = currentKey;
-    			
-    		}
-    	}
-        return floorKey;
-    }
-    /**
-     * the 'ceiling' method to fetch the Pokémon whose ID is just above a given ID.
-     * @param key
-     * @return ceilingKey
-     */
-    public Integer ceiling(Integer key) {
-    	if(!table.containsKey(key)) {
-    		throw new IllegalArgumentException("Key not found in table.");
-    	}
-    	// loop through and find a key value that is less than the key argument. 
-    	if(table.isEmpty()) return null;
-    	
-    	Integer ceilingKey = null;
-    	
-    	for(Integer currentKey : table.keySet()) {
-    		// If the current key is greater than the given key and (either we haven't found 
-    		// a floor key yet or the current key is less than the previously found floor key
-    		if(currentKey > key && (ceilingKey == null || currentKey < ceilingKey)) {
-    			ceilingKey = currentKey;
-    			
-    		}
-    	}
-        return ceilingKey;
-    }
-    /**
-     * The 'rank' method to get the rank of a Pokémon by ID (i.e., how many Pokémon have lower IDs).
-     * @param key
-     * @return the count of Pokemon that have an lower IDs than the one given. 
-     */
-    public int rank(Integer key) {
-    	if(!table.containsKey(key)) {
-    		throw new IllegalArgumentException("Key not found in table.");
-    	}
-    	int count = 0;
-    	for(Integer currentKey : table.keySet()) {
-    		if(currentKey <= key) {
-    			count++;
-    		}
-    	}
-        return count;
-    }
-    /**
-     * Selects the name of the pokemon. 
-     * @param k is the key
-     * @return name of pokemon. 
-     */
-    public String select(int k) {
-    	if(!table.containsKey(k)) {
-    		throw new IllegalArgumentException("Key not found in table.");
-    	}
-    	String name = table.get(k).getName();
 
-        return name;
+    // Get Pokemon just less than given ID
+    public Pokemon floor(int id) {
+        return rbst.get(rbst.floor(id));
     }
-    /**
-     * deletes thie minimum 
-     */
+
+    // Get Pokemon just more than given ID
+    public Pokemon ceiling(int id) {
+        return rbst.get(rbst.ceiling(id));
+    }
+
+    // Get the rank of Pokemon by ID
+    public int rank(int id) {
+        return rbst.rank(id);
+    }
+
+    // Get the Pokemon with the given rank
+    public Pokemon select(int rank) {
+        return rbst.get(rbst.select(rank));
+    }
+
+    // Delete the Pokemon with the smallest ID
     public void deleteMin() {
-    	if(table.isEmpty()) return;
-    	Integer minKey = min();
-    	
-    	if(minKey != null) {
-    		table.remove(minKey);
-    	}
-      
-    	
+        rbst.deleteMin();
     }
 
+    // Delete the Pokemon with the largest ID
     public void deleteMax() {
-        if(table.isEmpty()) return;
-        
-        Integer maxKey = max();
-        if(maxKey != null) {
-        	table.remove(maxKey);
-        }
+        rbst.deleteMax();
     }
+
+    // Get all Pokemon IDs in the table
+    public Iterable<Integer> keys() {
+        return rbst.keys();
+    }
+    
+
 }

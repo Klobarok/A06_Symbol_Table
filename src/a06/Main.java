@@ -31,8 +31,8 @@ public class Main {
 		    challengeIsEmpty(symbolTable);
 		    challengeSize(symbolTable);
 		    challengeMinMax(symbolTable);
-		   challengeFloorCeiling(symbolTable);           
-		   challengeRank(symbolTable);
+            challengeFloorCeiling(symbolTable);
+		    challengeRank(symbolTable);
 		    challengeSelect(symbolTable);
 		    challengeDeleteMinMax(symbolTable);
 		    challengeKeys(symbolTable);
