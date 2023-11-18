@@ -2,6 +2,7 @@ package a06;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class Main {
 
@@ -49,7 +50,7 @@ public class Main {
      */
     public static void challengePut(PokemonSymbolTable st) {
     	System.out.println("Testing 'put' operation:");
-    	Pokemon testPokemon = new Pokemon(152, "testPokemon","Normal", 100, 200, 300, 400, 500, 600);
+    	Pokemon testPokemon = new Pokemon(152, "testPokemon","Normal", 100, 200, 300, 400, 500, 600, Optional.empty(), Optional.empty());
     	
     	st.put(152, testPokemon);
     	System.out.println("Test Pokemon successfully addeed.");

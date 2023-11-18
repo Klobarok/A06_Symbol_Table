@@ -1,5 +1,7 @@
 package a06;
 
+import java.util.Optional;
+
 /**
  * Represents a Pokémon with its attributes and stats.
  *
@@ -16,6 +18,8 @@ public class Pokemon {
     private int specialAttack;
     private int specialDefense;
     private int speed;
+    private Optional<Integer> evolvesTo; // Use Integer to allow for null if no evolution
+    private Optional<String> evolutionCondition; // Optional, based on your design
 
     /**
      * Constructs a new Pokémon object.
@@ -31,7 +35,8 @@ public class Pokemon {
      * @param speed          the speed stat
      */
     public Pokemon(int id, String name, String type, int hp, int attack, int defense,
-                   int specialAttack, int specialDefense, int speed) {
+                   int specialAttack, int specialDefense, int speed, Optional<Integer> evolvesTo,
+                   Optional<String> evolutionCondition) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -41,6 +46,8 @@ public class Pokemon {
         this.specialAttack = specialAttack;
         this.specialDefense = specialDefense;
         this.speed = speed;
+        this.evolvesTo = evolvesTo;
+        this.evolutionCondition = evolutionCondition;
     }
 
 
@@ -118,11 +125,27 @@ public class Pokemon {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
+
+    public Optional<Integer> getEvolvesTo() {
+        return evolvesTo;
+    }
+
+    public void setEvolvesTo(Optional<Integer> evolvesTo) {
+        this.evolvesTo = evolvesTo;
+    }
+
+    public Optional<String> getEvolutionCondition() {
+        return evolutionCondition;
+    }
+
+    public void setEvolutionCondition(Optional<String> evolutionCondition) {
+        this.evolutionCondition = evolutionCondition;
+    }
     @Override
 	public String toString() {
 		return "Pokemon [id=" + id + ", name=" + name + ", type=" + type + ", hp=" + hp + ", attack=" + attack
 				+ ", defense=" + defense + ", specialAttack=" + specialAttack + ", specialDefense=" + specialDefense
-				+ ", speed=" + speed + "]";
+				+ ", speed=" + speed + ", evolvesTo=" + evolvesTo
+                + ", evolutionCondition=" + evolutionCondition + "]";
 	}
-
 }

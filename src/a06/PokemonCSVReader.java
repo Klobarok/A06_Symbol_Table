@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Provides utility methods to read Pokémon data from a CSV file.
@@ -28,6 +29,7 @@ public class PokemonCSVReader {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
+                System.out.println(values.length);
                 int id = Integer.parseInt(values[0]);
                 String name = values[1];
                 String type = values[2];
@@ -37,8 +39,24 @@ public class PokemonCSVReader {
                 int specialAttack = Integer.parseInt(values[6]);
                 int specialDefense = Integer.parseInt(values[7]);
                 int speed = Integer.parseInt(values[8]);
-                Pokemon pokemon = new Pokemon(id, name, type, hp, attack, defense, specialAttack, specialDefense, speed);
-                pokemonArrayList.add(pokemon);
+                if (values.length > 9) {
+                    int evolvesToId = Integer.parseInt(values[9]);
+                    String evolutionCondition = values[10];
+                    Pokemon pokemon = new Pokemon(id, name, type, hp, attack, defense,
+                            specialAttack, specialDefense, speed,
+                            Optional.of(evolvesToId),
+                            Optional.of("Evolution Condition")
+                    );
+                }else {
+                    Pokemon pokemon = new Pokemon(id, name, type, hp, attack, defense,
+                            specialAttack, specialDefense, speed,
+                            Optional.empty(),
+                            Optional.empty()
+//                        Optional.of(evolvesToId),
+//                        Optional.of("Evolution Condition")
+                    );
+                    pokemonArrayList.add(pokemon);
+                }
             }
         }
         return pokemonArrayList;
