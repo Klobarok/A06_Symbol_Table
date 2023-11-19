@@ -1,4 +1,4 @@
-package a06;
+package pokemon;
 
 import java.io.IOException;
 import java.util.List;

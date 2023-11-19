@@ -1,4 +1,4 @@
-package a06;
+package pokemon;
 
 import edu.princeton.cs.algs4.RedBlackBST;
 

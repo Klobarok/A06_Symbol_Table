@@ -1,9 +1,11 @@
-package a06;
+package pokemon;
 
 
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,6 +21,8 @@ public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	//public static Pokemon currentPokemon = // TODO we need to keep track of current pokemon. We can do this by cycling through a pokemon list or somehting. 
+			
 
 	/**
 	 * Launch the application.
@@ -61,6 +65,7 @@ public class MainWindow extends JFrame {
 				new JLabel("Fire"), new JLabel("39"), new JLabel("52"), 
 				new JLabel("43"), new JLabel("60"),new JLabel("50"),
 				new JLabel("65"), new JLabel("Charmeleon")};
+		
 		rightDisplay(mainCenterPanel, statValueLabels);
 		displayButtons();
 	}
@@ -141,6 +146,9 @@ public class MainWindow extends JFrame {
 		JPanel buttonPanel = new JPanel();
 		contentPane.add(buttonPanel, BorderLayout.SOUTH);
 		
+		JButton btnEvolution = new JButton("Show Evolution");
+		buttonPanel.add(btnEvolution);
+		
 		JButton btnPrevious = new JButton("Previous");
 		btnPrevious.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		buttonPanel.add(btnPrevious);
@@ -152,6 +160,14 @@ public class MainWindow extends JFrame {
 		JButton btnSort = new JButton("Sort By...");
 		btnSort.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		buttonPanel.add(btnSort);
+	    btnSort.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            SortOptionsDialog dialog = new SortOptionsDialog(MainWindow.this);
+	            dialog.setVisible(true);
+	        }
+	    });
+	    buttonPanel.add(btnSort);
 	}
 
 }
