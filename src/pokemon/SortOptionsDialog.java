@@ -158,6 +158,7 @@ public class SortOptionsDialog extends JDialog {
                 if (selectedRow >= 0) {
                     Object id = table.getValueAt(selectedRow, 0); // Assuming ID is in column 0
                     System.out.println("Selected Pokemon ID: " + id);
+                    //TODO change the MainWindow.currentPokemonID
                 }
             }
         });

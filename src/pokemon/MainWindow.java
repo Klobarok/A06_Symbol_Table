@@ -22,7 +22,8 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	//public static Pokemon currentPokemon = // TODO we need to keep track of current pokemon. We can do this by cycling through a pokemon list or somehting. 
-			
+	//Initialize a varialble to keep track of the pokemon ID we're on. 
+	public int currentPokemonID = 0;
 
 	/**
 	 * Launch the application.
@@ -148,14 +149,46 @@ public class MainWindow extends JFrame {
 		
 		JButton btnEvolution = new JButton("Show Evolution");
 		buttonPanel.add(btnEvolution);
+		// Add ActionListener to the button
+        btnEvolution.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Evolution button clicked!");
+                // Add any additional action you want to perform here
+                // TODO get the current pokemon and then check if it has an evolution
+                // if(pokemon has evolution){
+                // currentPokemonID = Pokemon.getEvolution();}
+            }
+        });
 		
 		JButton btnPrevious = new JButton("Previous");
 		btnPrevious.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		buttonPanel.add(btnPrevious);
+		btnPrevious.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Previous button clicked!");
+                //TODO if(currentPokemonID == 1 || currentPokemonID ==0){
+                // currentPokemonID = pokemonData.length;
+                //} else{
+                //TODO currentPokemonID --; }
+            }
+        });
 		
 		JButton btnNext = new JButton("Next");
 		btnNext.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		buttonPanel.add(btnNext);
+		btnPrevious.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Next button clicked!");
+                //TODO if(currentPokemonID == pokemonData.length ){
+                // currentPokemonID = 1;
+                //} else{
+                //TODO currentPokemonID ++; }
+            }
+        });
+		
 		
 		JButton btnSort = new JButton("Sort By...");
 		btnSort.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
