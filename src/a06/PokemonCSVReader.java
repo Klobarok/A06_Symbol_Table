@@ -39,21 +39,23 @@ public class PokemonCSVReader {
                 int specialAttack = Integer.parseInt(values[6]);
                 int specialDefense = Integer.parseInt(values[7]);
                 int speed = Integer.parseInt(values[8]);
-                if (values.length > 9) {
+                String evolutionCondition = "";
+                if (values.length >= 10) {
                     int evolvesToId = Integer.parseInt(values[9]);
-                    String evolutionCondition = values[10];
+                    if (values.length == 11){
+                        evolutionCondition = values[10];
+                    }
                     Pokemon pokemon = new Pokemon(id, name, type, hp, attack, defense,
                             specialAttack, specialDefense, speed,
                             Optional.of(evolvesToId),
-                            Optional.of("Evolution Condition")
+                            Optional.of(evolutionCondition)
                     );
+                    pokemonArrayList.add(pokemon);
                 }else {
                     Pokemon pokemon = new Pokemon(id, name, type, hp, attack, defense,
                             specialAttack, specialDefense, speed,
                             Optional.empty(),
                             Optional.empty()
-//                        Optional.of(evolvesToId),
-//                        Optional.of("Evolution Condition")
                     );
                     pokemonArrayList.add(pokemon);
                 }

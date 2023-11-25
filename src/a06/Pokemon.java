@@ -126,8 +126,10 @@ public class Pokemon {
         this.speed = speed;
     }
 
-    public Optional<Integer> getEvolvesTo() {
-        return evolvesTo;
+    public int getEvolvesTo() {
+        int evolution = (evolvesTo.orElse(-1) != -1) ? evolvesTo.get(): 0;
+        return evolution;
+//        return evolvesTo.orElse(-1);
     }
 
     public void setEvolvesTo(Optional<Integer> evolvesTo) {

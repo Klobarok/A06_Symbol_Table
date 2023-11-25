@@ -22,21 +22,21 @@ public class Main {
                 symbolTable.put(pokemon.getId(), pokemon);
             }
 
-//            printSymbolTable(symbolTable);
+            printSymbolTable(symbolTable);
 
 //            // Execute challenges related to the symbol table
-		    challengePut(symbolTable);
-		    challengeGet(symbolTable);
-		    challengeDelete(symbolTable);
-		    challengeContains(symbolTable);
-		    challengeIsEmpty(symbolTable);
-		    challengeSize(symbolTable);
-		    challengeMinMax(symbolTable);
-            challengeFloorCeiling(symbolTable);
-		    challengeRank(symbolTable);
-		    challengeSelect(symbolTable);
-		    challengeDeleteMinMax(symbolTable);
-		    challengeKeys(symbolTable);
+//		    challengePut(symbolTable);
+//		    challengeGet(symbolTable);
+//		    challengeDelete(symbolTable);
+//		    challengeContains(symbolTable);
+//		    challengeIsEmpty(symbolTable);
+//		    challengeSize(symbolTable);
+//		    challengeMinMax(symbolTable);
+//            challengeFloorCeiling(symbolTable);
+//		    challengeRank(symbolTable);
+//		    challengeSelect(symbolTable);
+//		    challengeDeleteMinMax(symbolTable);
+//		    challengeKeys(symbolTable);
 
         } catch (IOException e) {
             System.out.println("Error reading the CSV file: " + e.getMessage());
@@ -230,17 +230,23 @@ public class Main {
      */
     public static void printSymbolTable(PokemonSymbolTable st) {
         System.out.println("----------------------------------------------------");
-        System.out.println("| ID | Name        | Type          | HP | Attack | Defense | Sp.Attack | Sp.Defense | Speed |");
+        System.out.println("| ID | Name        | Type             | HP  | Attack | Defense | Sp.Attack | Sp.Defense | Speed | Evolves To |");
         System.out.println("----------------------------------------------------");
 
         for (Integer id : st.keys()) {
             Pokemon pokemon = st.get(id);
-            System.out.printf("| %2d | %-10s | %-13s | %2d | %6d | %7d | %9d | %10d | %5d |\n",
+            String evoName;
+            if (pokemon.getEvolvesTo() != 0) {
+                Pokemon evoPokemon = st.get(pokemon.getEvolvesTo());
+                evoName = evoPokemon.getName();
+            }else {
+                evoName = "";
+            }
+            System.out.printf("| %3d | %-10s | %-16s | %3d | %6d | %7d | %9d | %10d | %5d |  %-10s \n",
                     pokemon.getId(), pokemon.getName(), pokemon.getType(), pokemon.getHp(),
                     pokemon.getAttack(), pokemon.getDefense(), pokemon.getSpecialAttack(),
-                    pokemon.getSpecialDefense(), pokemon.getSpeed());
+                    pokemon.getSpecialDefense(), pokemon.getSpeed(), evoName);
         }
         System.out.println("----------------------------------------------------");
     }
 }
-
