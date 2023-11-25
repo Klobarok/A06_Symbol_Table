@@ -29,7 +29,6 @@ public class PokemonCSVReader {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
-                System.out.println(values.length);
                 int id = Integer.parseInt(values[0]);
                 String name = values[1];
                 String type = values[2];
@@ -40,25 +39,26 @@ public class PokemonCSVReader {
                 int specialDefense = Integer.parseInt(values[7]);
                 int speed = Integer.parseInt(values[8]);
                 String evolutionCondition = "";
+                Pokemon pokemon;
                 if (values.length >= 10) {
                     int evolvesToId = Integer.parseInt(values[9]);
-                    if (values.length == 11){
+                    if (values.length == 11) {
                         evolutionCondition = values[10];
                     }
-                    Pokemon pokemon = new Pokemon(id, name, type, hp, attack, defense,
+                    pokemon = new Pokemon(id, name, type, hp, attack, defense,
                             specialAttack, specialDefense, speed,
                             Optional.of(evolvesToId),
                             Optional.of(evolutionCondition)
                     );
-                    pokemonArrayList.add(pokemon);
-                }else {
-                    Pokemon pokemon = new Pokemon(id, name, type, hp, attack, defense,
+                } else {
+                    pokemon = new Pokemon(id, name, type, hp, attack, defense,
                             specialAttack, specialDefense, speed,
                             Optional.empty(),
                             Optional.empty()
                     );
-                    pokemonArrayList.add(pokemon);
                 }
+                pokemon.setImagePath();
+                pokemonArrayList.add(pokemon);
             }
         }
         return pokemonArrayList;

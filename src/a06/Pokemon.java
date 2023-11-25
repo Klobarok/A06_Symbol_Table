@@ -1,5 +1,6 @@
 package a06;
 
+import java.io.File;
 import java.util.Optional;
 
 /**
@@ -20,6 +21,7 @@ public class Pokemon {
     private int speed;
     private Optional<Integer> evolvesTo; // Use Integer to allow for null if no evolution
     private Optional<String> evolutionCondition; // Optional, based on your design
+    private String imgPath;
 
     /**
      * Constructs a new Pokémon object.
@@ -143,11 +145,28 @@ public class Pokemon {
     public void setEvolutionCondition(Optional<String> evolutionCondition) {
         this.evolutionCondition = evolutionCondition;
     }
+
+    public void setImagePath() {
+        String folderPath = "src/imgs/"; // Path to the images folder
+        String imagePath = folderPath + this.name.toLowerCase() + ".jpg"; // Assuming the image format is .png
+
+        File imgFile = new File(imagePath);
+        if (imgFile.exists()) {
+            this.imgPath = imagePath;
+        } else {
+            this.imgPath = null; // Or set a default image path
+        }
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
     @Override
 	public String toString() {
 		return "Pokemon [id=" + id + ", name=" + name + ", type=" + type + ", hp=" + hp + ", attack=" + attack
 				+ ", defense=" + defense + ", specialAttack=" + specialAttack + ", specialDefense=" + specialDefense
 				+ ", speed=" + speed + ", evolvesTo=" + evolvesTo
-                + ", evolutionCondition=" + evolutionCondition + "]";
+                + ", evolutionCondition=" + evolutionCondition + ", imagePath=" + imgPath + "]";
 	}
 }
