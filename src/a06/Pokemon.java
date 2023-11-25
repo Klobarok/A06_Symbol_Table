@@ -147,14 +147,14 @@ public class Pokemon {
     }
 
     public void setImagePath() {
-        String folderPath = "src/imgs/"; // Path to the images folder
-        String imagePath = folderPath + this.name.toLowerCase() + ".jpg"; // Assuming the image format is .png
+        String folderPath = "src/imgs/";
+        String imagePath = folderPath + this.name.toLowerCase() + ".jpg";
 
         File imgFile = new File(imagePath);
         if (imgFile.exists()) {
             this.imgPath = imagePath;
         } else {
-            this.imgPath = null; // Or set a default image path
+            this.imgPath = null;
         }
     }
 
