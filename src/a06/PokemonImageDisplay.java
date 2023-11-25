@@ -37,7 +37,7 @@ public class PokemonImageDisplay {
                 frame.setTitle(pokemon.getName());
             });
             try {
-                Thread.sleep(10); // Wait for 1 seconds before showing the next image
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
