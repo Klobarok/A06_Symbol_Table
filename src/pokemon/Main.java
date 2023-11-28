@@ -1,4 +1,4 @@
-package a06;
+package pokemon;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +24,7 @@ public class Main {
 
             printSymbolTable(symbolTable);
 
-//            // Execute challenges related to the symbol table
+            // Execute challenges related to the symbol table
 //		    challengePut(symbolTable);
 //		    challengeGet(symbolTable);
 //		    challengeDelete(symbolTable);
@@ -32,7 +32,7 @@ public class Main {
 //		    challengeIsEmpty(symbolTable);
 //		    challengeSize(symbolTable);
 //		    challengeMinMax(symbolTable);
-//            challengeFloorCeiling(symbolTable);
+//          challengeFloorCeiling(symbolTable);
 //		    challengeRank(symbolTable);
 //		    challengeSelect(symbolTable);
 //		    challengeDeleteMinMax(symbolTable);

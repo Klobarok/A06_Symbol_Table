@@ -1,4 +1,4 @@
-package a06;
+package pokemon;
 
 import java.io.File;
 import java.util.Optional;
@@ -131,7 +131,6 @@ public class Pokemon {
     public int getEvolvesTo() {
         int evolution = (evolvesTo.orElse(-1) != -1) ? evolvesTo.get(): 0;
         return evolution;
-//        return evolvesTo.orElse(-1);
     }
 
     public void setEvolvesTo(Optional<Integer> evolvesTo) {
