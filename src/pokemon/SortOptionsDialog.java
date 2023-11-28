@@ -15,10 +15,11 @@ import java.util.List;
 
 public class SortOptionsDialog extends JDialog {
 	private JRadioButton rbType = new JRadioButton("Type:");
-	private JTextField txtName;
+	
     //private String selectedName = "";
-    private boolean[] selection = new boolean[5]; // [Name, Type, HP, Attack, Speed]
+    private boolean[] selection = new boolean[6]; // [ID, Name, Type, HP, Attack, Speed]
     //private String selectedSortingCriteria = ""; // For "HP", "Attack", "Speed", etc.
+    
     private boolean[] typeSelection;
 	
 	private JCheckBox[] typeCheckboxes; // Array to store references to the checkboxes
@@ -33,20 +34,20 @@ public class SortOptionsDialog extends JDialog {
         getContentPane().add(namePanel);
         namePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
         
-        
+        //sort by ID
+        JRadioButton rbID = new JRadioButton("ID: ");
+        namePanel.add(rbID);
         // Name sort option
         JRadioButton rbName = new JRadioButton("Name:");
         rbName.setHorizontalAlignment(SwingConstants.LEFT);
         //rbName.setSelected(true);
         namePanel.add(rbName);
-        txtName = new JTextField(10);
-        namePanel.add(txtName);
+
         
         JPanel typePanel = new JPanel();
         typePanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
         getContentPane().add(typePanel);
         typePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        
 
         // Type sort option
         //JRadioButton rbType = new JRadioButton("Type:");
@@ -90,7 +91,8 @@ public class SortOptionsDialog extends JDialog {
         
         // Group the radio buttons
         ButtonGroup group = new ButtonGroup();
-
+        
+        group.add(rbID);
         group.add(rbName);
         group.add(rbType);
         group.add(rbHP);
@@ -98,11 +100,12 @@ public class SortOptionsDialog extends JDialog {
         group.add(rbSpeed);
         
         // Action listeners for radio buttons
-        rbName.addActionListener(e -> updateSelection(0));
-        rbType.addActionListener(e -> updateSelection(1));
-        rbHP.addActionListener(e -> updateSelection(2));
-        rbAttack.addActionListener(e -> updateSelection(3));
-        rbSpeed.addActionListener(e -> updateSelection(4));
+        rbID.addActionListener(e -> updateSelection(0));
+        rbName.addActionListener(e -> updateSelection(1));
+        rbType.addActionListener(e -> updateSelection(2));
+        rbHP.addActionListener(e -> updateSelection(3));
+        rbAttack.addActionListener(e -> updateSelection(4));
+        rbSpeed.addActionListener(e -> updateSelection(5));
         
         // Submit button
         JButton btnSubmit = new JButton("Submit");
@@ -120,8 +123,8 @@ public class SortOptionsDialog extends JDialog {
     }
     
     private void handleSubmit() {
-        String enteredText = txtName.getText();
-        System.out.println("Entered Name: " + enteredText);
+
+       
         System.out.println("Selection: " + Arrays.toString(selection));
         
         if (rbType.isSelected()) {
@@ -131,13 +134,51 @@ public class SortOptionsDialog extends JDialog {
         // table TODO Based on the sorting selection we need to make a table. 
         // Initialize the table data and column names
         String[] columnNames = {"ID", "Name", "Type"};
-        Object[][] data = {
+        
+        String[][] original = PokemonSymbolTable.symbolTableTo2DArray().clone();
+        
+        //iterate through selection array to come up with the true index. 
+        String[][] sorted = null;
+        for (int i = 0; i < selection.length; i++) {
+            if (selection[i]) {
+                switch (i) {
+                    case 0:
+                    	sorted = original.clone();
+                        System.out.println("Sort by ID selected");
+                        break;
+                    case 1:
+                        sorted = PokeSort.sortByName(original);
+                        System.out.println("Sort by Name selected");
+                        break;
+                    case 2:
+                        sorted = PokeSort.filterAndSortByTypes(original, typeSelection);
+                        System.out.println("Sort by Type selected");
+                        break;
+                    case 3:
+                        sorted = PokeSort.sortByHP(original);
+                        System.out.println("sort by HP selected");
+                        break;
+                    case 4:
+                        sorted = PokeSort.sortByAttack(original);
+                        System.out.println("Sort by Attack Selected");
+                        break;
+                    case 5:
+                        sorted = PokeSort.sortBySpeed(original);
+                        System.out.println("Sort by Speed Selected");
+                        break;
+                }
+                break; // Break the for loop once the true value is found and handled
+            }
+        }
+        
+        	/*{
             {"1", "Pikachu", "Electric"},
             {"2", "Charmander", "Fire"},
             {"3", "Bulbasaur", "Grass"} // Example data
-        };
+        };*/
+        		
         // Create the table
-        JTable table = new JTable(data, columnNames);
+        JTable table = new JTable(sorted, columnNames);
         // Create a new frame to display the table
         JFrame tableFrame = new JFrame("Selected Data");
         tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

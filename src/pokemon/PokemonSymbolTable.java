@@ -2,12 +2,25 @@ package pokemon;
 
 import edu.princeton.cs.algs4.RedBlackBST;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PokemonSymbolTable {
-    private RedBlackBST<Integer, Pokemon> rbst;
+    public static RedBlackBST<Integer, Pokemon> rbst;
+    public static List<Pokemon> pokemonList = PokemonCSVReader.getPokemonList();
+    
+    public static PokemonSymbolTable getPokemonST() {
+    	// Create a symbol table
+        PokemonSymbolTable symbolTable = new PokemonSymbolTable();
 
+        // Populate the symbol table with Pokémon data
+        for (Pokemon pokemon : pokemonList) {
+            symbolTable.put(pokemon.getId(), pokemon);
+        }
+    	return symbolTable;
+    }
+    
     public PokemonSymbolTable() {
         this.rbst = new RedBlackBST<>();
     }
@@ -87,5 +100,32 @@ public class PokemonSymbolTable {
         return rbst.keys();
     }
     
+    /**
+     * Converts a symbol table into a 2D array.
+     * Each row of the array contains the fields of a Pokemon object.
+     *
+     * @param symbolTable The symbol table to be converted.
+     * @return A 2D array representing the symbol table data.
+     */
+    public static String[][] symbolTableTo2DArray() {
+    	
+        List<String[]> rows = new ArrayList<>();
+        PokemonSymbolTable symbolTable = getPokemonST();
+        for (int key : symbolTable.keys()) {
+            Pokemon pokemon = symbolTable.get(key);
+            String[] row = {
+                String.valueOf(pokemon.getId()),
+                pokemon.getName(),
+                pokemon.getType(),
+                // Add other fields of Pokemon as needed
+            };
+            rows.add(row);
+        }
+
+        String[][] table = new String[rows.size()][];
+        rows.toArray(table);
+
+        return table;
+    }
 
 }
