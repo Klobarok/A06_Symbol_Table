@@ -32,11 +32,15 @@ public class SortOptionsDialog extends JDialog {
         //setSize(400,300);
         JPanel namePanel = new JPanel();
         getContentPane().add(namePanel);
-        namePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+        namePanel.setLayout(new GridLayout(0, 1, 0, 0));
         
         //sort by ID
         JRadioButton rbID = new JRadioButton("ID: ");
+        rbID.setVerticalAlignment(SwingConstants.TOP);
         namePanel.add(rbID);
+        
+        JLabel label = new JLabel("");
+        namePanel.add(label);
         // Name sort option
         JRadioButton rbName = new JRadioButton("Name:");
         rbName.setHorizontalAlignment(SwingConstants.LEFT);
@@ -70,24 +74,6 @@ public class SortOptionsDialog extends JDialog {
                 typeSelection[index] = typeCheckboxes[index].isSelected();
             });
         }
-        // ActionListener for rbType
-        /*rbType.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                boolean typeSelected = rbType.isSelected();
-                for (JCheckBox checkBox : typeCheckboxes) {
-                    checkBox.setEnabled(typeSelected); // Enable/disable based on rbType's state
-                }
-            }
-        }); */
-        
-        // Other radio buttons
-        JRadioButton rbHP = new JRadioButton("HP:");
-        JRadioButton rbAttack = new JRadioButton("Attack:");
-        JRadioButton rbSpeed = new JRadioButton("Speed:");
-        getContentPane().add(rbHP);
-        getContentPane().add(rbAttack);
-        getContentPane().add(rbSpeed);
         
         // Group the radio buttons
         ButtonGroup group = new ButtonGroup();
@@ -95,17 +81,11 @@ public class SortOptionsDialog extends JDialog {
         group.add(rbID);
         group.add(rbName);
         group.add(rbType);
-        group.add(rbHP);
-        group.add(rbAttack);
-        group.add(rbSpeed);
         
         // Action listeners for radio buttons
         rbID.addActionListener(e -> updateSelection(0));
         rbName.addActionListener(e -> updateSelection(1));
         rbType.addActionListener(e -> updateSelection(2));
-        rbHP.addActionListener(e -> updateSelection(3));
-        rbAttack.addActionListener(e -> updateSelection(4));
-        rbSpeed.addActionListener(e -> updateSelection(5));
         
         // Submit button
         JButton btnSubmit = new JButton("Submit");
@@ -123,7 +103,7 @@ public class SortOptionsDialog extends JDialog {
     }
     
     private void handleSubmit() {
-
+    	
        
         System.out.println("Selection: " + Arrays.toString(selection));
         
@@ -183,11 +163,11 @@ public class SortOptionsDialog extends JDialog {
         JFrame tableFrame = new JFrame("Selected Data");
         tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         tableFrame.setSize(400, 300);
-        tableFrame.setLocation(getMousePosition());
+        tableFrame.setLocation(600,600);
 
         // Add the table to a scroll pane (for large data sets)
         JScrollPane scrollPane = new JScrollPane(table);
-        tableFrame.add(scrollPane);
+        tableFrame.getContentPane().add(scrollPane);
 
         // Display the frame
         tableFrame.setVisible(true);
