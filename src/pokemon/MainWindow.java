@@ -57,7 +57,7 @@ public class MainWindow extends JFrame {
      */
     public MainWindow() throws IOException {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 700, 500);
+        setBounds(100, 100, 700, 600);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
@@ -76,6 +76,9 @@ public class MainWindow extends JFrame {
         if (!symbolTable.isEmpty()) {
             updateDisplay(symbolTable.get(symbolTable.min().getId()));
         }
+
+        // Creating the EvolutionGraph
+        EvolutionGraph evoGraph = new EvolutionGraph(symbolTable);
     }
 
     /**
@@ -135,8 +138,8 @@ public class MainWindow extends JFrame {
         leftDisplay.add(imageDisplay, BorderLayout.CENTER);
 
         // Define the desired width and height for the image
-        int desiredWidth = 400; // Change as needed
-        int desiredHeight = 400; // Change as needed
+        int desiredWidth = 400;
+        int desiredHeight = 400;
 
         JLabel imgLabel = new JLabel();
 
@@ -163,8 +166,8 @@ public class MainWindow extends JFrame {
      * @param imgPath The path to the Pokémon's image.
      */
     private void updateImage(String imgPath) {
-        int desiredWidth = 400; // Change as needed
-        int desiredHeight = 400; // Change as needed
+        int desiredWidth = 400;
+        int desiredHeight = 400;
 
         try {
             ImageIcon originalIcon = new ImageIcon(imgPath);
@@ -186,7 +189,7 @@ public class MainWindow extends JFrame {
         JPanel statsPanel = new JPanel(new GridLayout(0, 2, 10, 10));
         statsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        String[] statNames = {"ID:", "Name:", "Type:", "HP:", "Attack:", "Defense:", "Special-Attack:", "Special-Defense:", "Speed:", "Evolution:"};
+        String[] statNames = {"ID:", "Name:", "Type:", "HP:", "Attack:", "Defense:", "Special-Attack:", "Special-Defense:", "Speed:"};
 
         statValueLabels = new JLabel[statNames.length]; // Initialize the array
 
@@ -216,10 +219,6 @@ public class MainWindow extends JFrame {
         statValueLabels[6].setText(String.valueOf(pokemon.getSpecialAttack()));
         statValueLabels[7].setText(String.valueOf(pokemon.getSpecialDefense()));
         statValueLabels[8].setText(String.valueOf(pokemon.getSpeed()));
-        pokemon.getEvolutionCondition().ifPresentOrElse(
-                condition -> statValueLabels[9].setText(condition),
-                () -> statValueLabels[9].setText("None")
-        );
     }
 
     /**
@@ -246,7 +245,7 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Evolution button clicked!");
-                // Evolution logic here
+                //TODO Add in the Evolution button functionality.
             }
         });
 
