@@ -19,8 +19,8 @@ public class Pokemon {
     private int specialAttack;
     private int specialDefense;
     private int speed;
-    private Optional<Integer> evolvesTo; // Use Integer to allow for null if no evolution
-    private Optional<String> evolutionCondition; // Optional, based on your design
+    private Optional<Integer> evolvesTo;
+    private Optional<String> evolutionCondition;
     private String imgPath;
 
     /**
