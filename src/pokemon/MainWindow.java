@@ -20,6 +20,7 @@ import java.util.List;
  * Main window for the Pokémon application.
  * This class creates the main frame for the application,
  * displaying Pokémon data and providing navigation through the Pokémon list.
+ * @author Joel Berg + Joseph Peat
  */
 public class MainWindow extends JFrame {
 
@@ -240,6 +241,8 @@ public class MainWindow extends JFrame {
         contentPane.add(buttonPanel, BorderLayout.SOUTH);
 
         JButton btnEvolution = new JButton("Show Evolution");
+        btnEvolution.setFocusable(false);
+        btnEvolution.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         buttonPanel.add(btnEvolution);
         btnEvolution.addActionListener(new ActionListener() {
             @Override
@@ -250,6 +253,7 @@ public class MainWindow extends JFrame {
         });
 
         JButton btnPrevious = new JButton("Previous");
+        btnPrevious.setFocusable(false);
         btnPrevious.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         buttonPanel.add(btnPrevious);
         btnPrevious.addActionListener(new ActionListener() {
@@ -266,6 +270,7 @@ public class MainWindow extends JFrame {
         });
 
         JButton btnNext = new JButton("Next");
+        btnNext.setFocusable(false);
         btnNext.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         buttonPanel.add(btnNext);
         btnNext.addActionListener(new ActionListener() {
@@ -282,6 +287,7 @@ public class MainWindow extends JFrame {
         });
 
         JButton btnSort = new JButton("Sort By...");
+        btnSort.setFocusable(false);
         btnSort.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         buttonPanel.add(btnSort);
         btnSort.addActionListener(new ActionListener() {

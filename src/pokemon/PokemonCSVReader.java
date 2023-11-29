@@ -10,7 +10,7 @@ import java.util.Optional;
 /**
  * Provides utility methods to read Pokémon data from a CSV file.
  *
- * @author Joseph Peat
+ * @author Joseph Peat + Joel Berg
  * @version 1.0
  */
 public class PokemonCSVReader {
@@ -62,5 +62,49 @@ public class PokemonCSVReader {
             }
         }
         return pokemonArrayList;
+    }
+   
+	private static final String CSV_FILE_PATH = "src/data/pokemon151.csv";
+	// Static field to hold the list of Pokemon
+    private static List<Pokemon> pokemonArrayList = new ArrayList<>();
+
+    static {
+        try {
+            // Load data when the class is loaded
+            pokemonArrayList = readPokemonFromCSV(CSV_FILE_PATH);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle exceptions or leave the list empty
+        }
+    }
+    
+ // Static method to access the populated list
+    public static List<Pokemon> getPokemonList() {
+        return pokemonArrayList;
+    }
+    /**
+     * Reads data from the specified CSV file and returns it as a 2D array.
+     *
+     * @param filename the path to the CSV file
+     * @return a 2D array representing the data in the CSV file
+     * @throws IOException if an error occurs while reading the file
+     */
+    public static String[][] getTable() {
+        List<String[]> rows = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(CSV_FILE_PATH))) {
+            reader.readLine(); // Skip header
+            String line;
+            while ((line = reader.readLine()) != null) {
+                rows.add(line.split(","));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Return an empty 2D array in case of IOException
+            return new String[0][0];
+        }
+
+        String[][] table = new String[rows.size()][];
+        rows.toArray(table);
+        return table;
     }
 }

@@ -1,9 +1,27 @@
 package pokemon;
 
-import edu.princeton.cs.algs4.RedBlackBST;
+import java.util.ArrayList;
+import java.util.List;
 
+import edu.princeton.cs.algs4.RedBlackBST;
+/**
+ *  Creates a RedBlackBST symbol table for quickly retrieving pokemon. 
+ *  @author Joel Berg + Joseph Peat
+ */
 public class PokemonSymbolTable {
     private RedBlackBST<Integer, Pokemon> rbst;
+    public static List<Pokemon> pokemonList = PokemonCSVReader.getPokemonList();
+    
+    public static PokemonSymbolTable getPokemonST() {
+    	// Create a symbol table
+        PokemonSymbolTable symbolTable = new PokemonSymbolTable();
+
+        // Populate the symbol table with Pokémon data
+        for (Pokemon pokemon : pokemonList) {
+            symbolTable.put(pokemon.getId(), pokemon);
+        }
+    	return symbolTable;
+    }
 
     public PokemonSymbolTable() {
         this.rbst = new RedBlackBST<>();
@@ -84,5 +102,25 @@ public class PokemonSymbolTable {
         return rbst.keys();
     }
     
+public static String[][] symbolTableTo2DArray() {
+    	
+        List<String[]> rows = new ArrayList<>();
+        PokemonSymbolTable symbolTable = getPokemonST();
+        for (int key : symbolTable.keys()) {
+            Pokemon pokemon = symbolTable.get(key);
+            String[] row = {
+                String.valueOf(pokemon.getId()),
+                pokemon.getName(),
+                pokemon.getType(),
+                // Add other fields of Pokemon as needed
+            };
+            rows.add(row);
+        }
+
+        String[][] table = new String[rows.size()][];
+        rows.toArray(table);
+
+        return table;
+    }
 
 }
