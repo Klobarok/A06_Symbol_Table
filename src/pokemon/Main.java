@@ -24,7 +24,6 @@ public class Main {
 
             printSymbolTable(symbolTable);
 
-            // Execute challenges related to the symbol table
 //		    challengePut(symbolTable);
 //		    challengeGet(symbolTable);
 //		    challengeDelete(symbolTable);
