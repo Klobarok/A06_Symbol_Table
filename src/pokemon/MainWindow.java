@@ -1,25 +1,19 @@
 package pokemon;
 
-import java.awt.EventQueue;
-import java.awt.GridLayout;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import java.awt.Cursor;
 import java.io.IOException;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * Main window for the Pokémon application.
  * This class creates the main frame for the application,
  * displaying Pokémon data and providing navigation through the Pokémon list.
+ *
  * @author Joel Berg + Joseph Peat
  */
 public class MainWindow extends JFrame {
@@ -28,7 +22,7 @@ public class MainWindow extends JFrame {
     private JPanel contentPane;
     private PokemonSymbolTable symbolTable;
     private String csvFilePath = "src/data/pokemon151.csv";
-    public int currentPokemonID = 0;
+    public int currentPokemonID = 1;
 
     // GUI components for displaying Pokemon information
     private JLabel lblPokemonName; // Label for displaying Pokemon's name
@@ -77,9 +71,6 @@ public class MainWindow extends JFrame {
         if (!symbolTable.isEmpty()) {
             updateDisplay(symbolTable.get(symbolTable.min().getId()));
         }
-
-        // Creating the EvolutionGraph
-        EvolutionGraph evoGraph = new EvolutionGraph(symbolTable);
     }
 
     /**
@@ -234,68 +225,120 @@ public class MainWindow extends JFrame {
     }
 
     /**
-     * Set up the buttons for Pokémon navigation and actions.
+     * Displays the evolution chain of a Pokémon in a dialog.
+     * The evolution chain is presented in a JList within a JScrollPane,
+     * and each Pokémon can be selected to update the main display.
+     *
+     * @param pokemonId The ID of the Pokémon whose evolution chain is to be displayed.
+     */
+    private void showEvolutionChain(int pokemonId) {
+        // Create the EvolutionGraph and get the evolution chain for the specified Pokémon
+        EvolutionGraph evoGraph = new EvolutionGraph(symbolTable);
+        List<Pokemon> evolutionChain = evoGraph.getCompleteEvolutionChainPokemons(pokemonId, symbolTable);
+
+        // Create a JList to display the Pokémon in the evolution chain
+        JList<Pokemon> list = new JList<>(new Vector<>(evolutionChain));
+        list.setCellRenderer(new PokemonListCellRenderer()); // Use a custom cell renderer for display
+
+        // Add a listener to handle selection events on the list
+        list.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                Pokemon selectedPokemon = list.getSelectedValue();
+                updateDisplay(selectedPokemon);
+            }
+        });
+
+        // Create a JScrollPane to contain the list and set its preferred size
+        JScrollPane scrollPane = new JScrollPane(list);
+        scrollPane.setPreferredSize(new Dimension(500, 400));
+
+        // Create a JOptionPane for the scroll pane
+        JOptionPane optionPane = new JOptionPane(scrollPane);
+        JDialog dialog = optionPane.createDialog(this, "Evolution Chain");
+
+        // Calculate the position for the dialog
+        Point mainWindowLocation = this.getLocation();
+        int newX = mainWindowLocation.x + this.getWidth();
+        int newY = mainWindowLocation.y;
+
+        // Set the location and display the dialog
+        dialog.setLocation(newX, newY);
+        dialog.setVisible(true);
+    }
+
+    /**
+     * Updates the display in the main window to show the information of the Pokémon with the specified ID.
+     * This method looks up the Pokémon based on the provided ID, updates the current Pokémon ID tracking
+     * in the main window, and then updates the display to show the selected Pokémon's details.
+     *
+     * @param pokemonId The ID of the Pokémon to be displayed. This should correspond to a valid ID in the symbol table.
+     */
+    public void updateDisplayForId(int pokemonId) {
+        Pokemon selectedPokemon = symbolTable.get(pokemonId);
+        if (selectedPokemon != null) {
+            currentPokemonID = pokemonId; // Update the currentPokemonID
+            updateDisplay(selectedPokemon);
+        }
+    }
+
+    /**
+     * Sets up and displays the navigation and action buttons in the main window.
      */
     private void displayButtons() {
         JPanel buttonPanel = new JPanel();
         contentPane.add(buttonPanel, BorderLayout.SOUTH);
 
+        // Evolution Button: Shows the evolution chain of the current Pokémon
         JButton btnEvolution = new JButton("Show Evolution");
         btnEvolution.setFocusable(false);
         btnEvolution.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnEvolution.addActionListener(e -> showEvolutionChain(currentPokemonID));
         buttonPanel.add(btnEvolution);
-        btnEvolution.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Evolution button clicked!");
-                //TODO Add in the Evolution button functionality.
-            }
-        });
 
+        // Previous Button: Displays the previous Pokémon in the list
         JButton btnPrevious = new JButton("Previous");
         btnPrevious.setFocusable(false);
         btnPrevious.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        buttonPanel.add(btnPrevious);
-        btnPrevious.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!symbolTable.isEmpty()) {
-                    currentPokemonID--;
-                    if (currentPokemonID < symbolTable.min().getId()) {
-                        currentPokemonID = symbolTable.max().getId(); // Loop to the last
-                    }
-                    updateDisplay(symbolTable.get(currentPokemonID));
+        btnPrevious.addActionListener(e -> {
+            if (!symbolTable.isEmpty()) {
+                currentPokemonID--;
+                if (currentPokemonID < symbolTable.min().getId()) {
+                    currentPokemonID = symbolTable.max().getId(); // Loop to the last
                 }
+                updateDisplay(symbolTable.get(currentPokemonID));
             }
         });
+        buttonPanel.add(btnPrevious);
 
+        // Next Button: Displays the next Pokémon in the list
         JButton btnNext = new JButton("Next");
         btnNext.setFocusable(false);
         btnNext.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        buttonPanel.add(btnNext);
-        btnNext.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!symbolTable.isEmpty()) {
-                    currentPokemonID++;
-                    if (currentPokemonID > symbolTable.max().getId()) {
-                        currentPokemonID = symbolTable.min().getId(); // Loop back to the first
-                    }
-                    updateDisplay(symbolTable.get(currentPokemonID));
+        btnNext.addActionListener(e -> {
+            if (!symbolTable.isEmpty()) {
+                currentPokemonID++;
+                if (currentPokemonID > symbolTable.max().getId()) {
+                    currentPokemonID = symbolTable.min().getId(); // Loop back to the first
                 }
+                updateDisplay(symbolTable.get(currentPokemonID));
             }
         });
+        buttonPanel.add(btnNext);
 
+        // Sort Button: Opens the sorting options dialog
         JButton btnSort = new JButton("Sort By...");
         btnSort.setFocusable(false);
         btnSort.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        buttonPanel.add(btnSort);
-        btnSort.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SortOptionsDialog dialog = new SortOptionsDialog(MainWindow.this);
-                dialog.setVisible(true);
-            }
+        btnSort.addActionListener(e -> {
+            SortOptionsDialog dialog = new SortOptionsDialog(MainWindow.this);
+
+            // Position the sort dialog to the right of the main window
+            Point mainWindowLocation = MainWindow.this.getLocation();
+            int newX = mainWindowLocation.x + MainWindow.this.getWidth();
+            int newY = mainWindowLocation.y;
+            dialog.setLocation(newX, newY);
+
+            dialog.setVisible(true);
         });
         buttonPanel.add(btnSort);
     }

@@ -2,10 +2,12 @@ package pokemon;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Represents the evolution graph for Pokémon.
  * Each Pokémon is represented by its ID, and evolutions are stored as edges in the graph.
+ * @author Joseph Peat
  */
 public class EvolutionGraph {
     private Map<Integer, Set<Integer>> evolutionMap; // For tracking evolutions
@@ -136,6 +138,20 @@ public class EvolutionGraph {
         addEvolution(eeveeId, vaporeonId);
         addEvolution(eeveeId, jolteonId);
         addEvolution(eeveeId, flareonId);
+    }
+
+    /**
+     * Retrieves a list of Pokémon objects representing the complete evolution chain of the specified Pokémon.
+     * This method takes the Pokémon ID and a symbol table, fetches the evolution chain IDs,
+     * and converts them into Pokémon objects.
+     *
+     * @param pokemonId The ID of the Pokémon whose evolution chain is to be retrieved.
+     * @param symbolTable The symbol table containing Pokémon data.
+     * @return A List of Pokémon objects representing the complete evolution chain.
+     */
+    public List<Pokemon> getCompleteEvolutionChainPokemons(int pokemonId, PokemonSymbolTable symbolTable) {
+        List<Integer> ids = getCompleteEvolutionChain(pokemonId);
+        return ids.stream().map(symbolTable::get).collect(Collectors.toList());
     }
 
     // Example main method to demonstrate usage

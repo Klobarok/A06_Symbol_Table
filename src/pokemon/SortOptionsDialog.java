@@ -1,111 +1,87 @@
 package pokemon;
+
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.BevelBorder;
 import java.util.Arrays;
 
 /**
- * Contains the components for the dialog popup box that allows the user to generate a table that can be filtered/sorted which the
- * user can later use to view a pokemon on the main window. 
- *  @author Joel Berg + Joseph Peat
+ * Dialog for sorting and filtering Pokémon data.
+ * It allows the user to generate a table based on various sorting criteria like ID, Name, or Type.
+ * The selected Pokémon from this table can be viewed on the main window.
+ *
+ * @author Joel Berg + Joseph Peat
  */
 public class SortOptionsDialog extends JDialog {
-	private JRadioButton rbType = new JRadioButton("Type:");
-	//private JTextField txtName;
-    //private String selectedName = "";
-    private boolean[] selection = new boolean[5]; // [Name, Type, HP, Attack, Speed]
-    //private String selectedSortingCriteria = ""; // For "HP", "Attack", "Speed", etc.
+    private MainWindow mainWindow;
+    private JRadioButton rbType = new JRadioButton("Type:");
+    private boolean[] selection = new boolean[5]; // [ID, Name, Type]
     private boolean[] typeSelection;
-	
-	private JCheckBox[] typeCheckboxes; // Array to store references to the checkboxes
+    private JCheckBox[] typeCheckboxes; // Array to store references to the checkboxes
 
-	
-    public SortOptionsDialog(JFrame parent) {
-        super(parent, "Sort By", true);
+    /**
+     * Constructor to create a sort options dialog.
+     *
+     * @param mainWindow The parent window to which this dialog is attached.
+     */
+    public SortOptionsDialog(MainWindow mainWindow) {
+        super(mainWindow, "Sort By", true);
+        this.mainWindow = mainWindow;
 
-        getContentPane().setLayout(new GridLayout(0, 1)); // Using GridLayout for simplicity
-        //setSize(400,300);
+        getContentPane().setLayout(new GridLayout(0, 1));
         JPanel namePanel = new JPanel();
         getContentPane().add(namePanel);
         namePanel.setLayout(new GridLayout(0, 1, 0, 0));
-        
-        //sort by ID
+
+        // Sort by ID and Name
         JRadioButton rbID = new JRadioButton("ID: ");
-        rbID.setVerticalAlignment(SwingConstants.TOP);
-        namePanel.add(rbID);
-        
-        // Name sort option
         JRadioButton rbName = new JRadioButton("Name:");
-        rbName.setHorizontalAlignment(SwingConstants.LEFT);
-        //rbName.setSelected(true);
+        namePanel.add(rbID);
         namePanel.add(rbName);
-        //txtName = new JTextField(10);
-       // namePanel.add(txtName);
-        
+
+        // Type sort option panel
         JPanel typePanel = new JPanel();
         typePanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
         getContentPane().add(typePanel);
         typePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        
-
-        // Type sort option
-        //JRadioButton rbType = new JRadioButton("Type:");
         typePanel.add(rbType);
+
+        // Type checkboxes panel
         JPanel typeChoicePanel = new JPanel();
         typePanel.add(typeChoicePanel);
         typeChoicePanel.setLayout(new GridLayout(5, 3, 0, 0));
-        
-        String[] types = {"Bug", "Dragon", "Electric", 
-        		"Fairy", "Fighting", "Fire", "Ghost",
-        		"Grass", "Ground", "Ice", "Normal", 
-        		"Poison", "Psychic", "Rock", "Water"};
-        typeSelection = new boolean[types.length]; // Initialize the array
+
+        // Type options
+        String[] types = {"Bug", "Dragon", "Electric", "Fighting", "Fire", "Flying", "Ghost", "Grass", "Ground", "Ice", "Normal", "Poison", "Psychic", "Rock", "Water"};
+        typeSelection = new boolean[types.length];
         typeCheckboxes = new JCheckBox[types.length];
         for (int i = 0; i < types.length; i++) {
-        	final int index = i; // Use index in the lambda expression
+            final int index = i;
             typeCheckboxes[i] = new JCheckBox(types[i]);
+            typeCheckboxes[i].setEnabled(false); // Initially disabled
             typeChoicePanel.add(typeCheckboxes[i]);
-            typeCheckboxes[i].addActionListener(e -> {
-                typeSelection[index] = typeCheckboxes[index].isSelected();
-            });
+            typeCheckboxes[i].addActionListener(e -> typeSelection[index] = typeCheckboxes[index].isSelected());
         }
+
         // ActionListener for rbType
-        /*rbType.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                boolean typeSelected = rbType.isSelected();
-                for (JCheckBox checkBox : typeCheckboxes) {
-                    checkBox.setEnabled(typeSelected); // Enable/disable based on rbType's state
-                }
+        rbType.addActionListener(e -> {
+            boolean typeSelected = rbType.isSelected();
+            for (JCheckBox checkBox : typeCheckboxes) {
+                checkBox.setEnabled(typeSelected); // Enable/disable based on rbType's state
             }
-        }); */
-        
-        // Other radio buttons
-       /* JRadioButton rbHP = new JRadioButton("HP:");
-        JRadioButton rbAttack = new JRadioButton("Attack:");
-        JRadioButton rbSpeed = new JRadioButton("Speed:");
-        getContentPane().add(rbHP);
-        getContentPane().add(rbAttack);
-        getContentPane().add(rbSpeed);*/
-        
+        });
+
         // Group the radio buttons
         ButtonGroup group = new ButtonGroup();
-        
         group.add(rbID);
         group.add(rbName);
         group.add(rbType);
-        //group.add(rbHP);
-        //group.add(rbAttack);
-        //group.add(rbSpeed);
-        
+
         // Action listeners for radio buttons
         rbID.addActionListener(e -> updateSelection(0));
         rbName.addActionListener(e -> updateSelection(1));
         rbType.addActionListener(e -> updateSelection(2));
-        //rbHP.addActionListener(e -> updateSelection(2));
-        //rbAttack.addActionListener(e -> updateSelection(3));
-        //rbSpeed.addActionListener(e -> updateSelection(4));
-        
+
         // Submit button
         JButton btnSubmit = new JButton("Submit");
         btnSubmit.addActionListener(e -> handleSubmit());
@@ -113,79 +89,79 @@ public class SortOptionsDialog extends JDialog {
 
         // Set dialog properties
         pack();
-        setLocationRelativeTo(parent);
+        setLocationRelativeTo(mainWindow);
     }
-    
+
+    /**
+     * Updates the selection array based on the user's choice of sorting criteria.
+     *
+     * @param index The index of the selected sorting criteria in the selection array.
+     */
     private void updateSelection(int index) {
         Arrays.fill(selection, false);
         selection[index] = true;
     }
-    
+
+    /**
+     * Handles the submit action.
+     * It creates and displays a table based on the user's selected sorting criteria.
+     * The table is displayed in a new frame and allows the user to select a Pokémon
+     * to view in the main window.
+     */
     private void handleSubmit() {
-        //String enteredText = txtName.getText();
-       // System.out.println("Entered Name: " + enteredText);
-        System.out.println("Selection: " + Arrays.toString(selection));
-        
-        if (rbType.isSelected()) {
-            System.out.println("Type Selections: " + Arrays.toString(typeSelection));
-        }
-        
-        // table TODO Based on the sorting selection we need to make a table. 
         // Initialize the table data and column names
         String[] columnNames = {"ID", "Name", "Type"};
         String[][] original = PokemonSymbolTable.symbolTableTo2DArray().clone();
-        
-        
-        //iterate through selection array to come up with the true index. 
+
+        // Determine the sorting method based on the user's selection
         String[][] sorted = null;
         for (int i = 0; i < selection.length; i++) {
             if (selection[i]) {
                 switch (i) {
-                    case 0:
-                    	sorted = original;
-                        System.out.println("Sort by ID selected");
+                    case 0: // Sort by ID
+                        sorted = original;
                         break;
-                    case 1:
+                    case 1: // Sort by Name
                         sorted = PokeSort.sortByName(original);
-                        System.out.println("Sort by Name selected");
                         break;
-                    case 2:
+                    case 2: // Filter and Sort by Types
                         sorted = PokeSort.filterAndSortByTypes(original, typeSelection);
-                        System.out.println("Sort by Type selected");
                         break;
-
                 }
-                break; // Break the for loop once the true value is found and handled
+                break; // Exit the loop once a selection is handled
             }
         }
-        // Create the table
+
+        // Create the table with the sorted data
         JTable table = new JTable(sorted, columnNames);
+
         // Create a new frame to display the table
         JFrame tableFrame = new JFrame("Selected Data");
         tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         tableFrame.setSize(400, 300);
-        tableFrame.setLocation(getMousePosition());
-        tableFrame.setLocation(600,600);
+        tableFrame.setLocation(this.getLocation()); // Set the frame at the same location as the dialog
 
-        // Add the table to a scroll pane (for large data sets)
+        // Add the table to a scroll pane and to the frame
         JScrollPane scrollPane = new JScrollPane(table);
         tableFrame.getContentPane().add(scrollPane);
+        tableFrame.setVisible(true); // Display the frame
 
-        // Display the frame
-        tableFrame.setVisible(true);
-        
-     // Add a ListSelectionListener
+        // Add a ListSelectionListener to the table for selecting a Pokémon
         table.getSelectionModel().addListSelectionListener(event -> {
-            if (!event.getValueIsAdjusting()) { // This check prevents double events
+            if (!event.getValueIsAdjusting()) {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow >= 0) {
-                    Object id = table.getValueAt(selectedRow, 0); // Assuming ID is in column 0
-                    System.out.println("Selected Pokemon ID: " + id);
-                    //TODO change the MainWindow.currentPokemonID
+                    String idString = (String) table.getValueAt(selectedRow, 0);
+                    try {
+                        int selectedId = Integer.parseInt(idString);
+                        mainWindow.updateDisplayForId(selectedId); // Update the main window display
+                    } catch (NumberFormatException ex) {
+                        ex.printStackTrace(); // Handle invalid ID format
+                    }
                 }
             }
         });
-        
-        dispose();
+
+        dispose(); // Close the dialog
     }
 }
