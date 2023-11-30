@@ -25,9 +25,9 @@ public class MainWindow extends JFrame {
     public int currentPokemonID = 1;
 
     // GUI components for displaying Pokemon information
-    private JLabel lblPokemonName; // Label for displaying Pokemon's name
-    private JLabel imgLabel;       // Label for displaying Pokemon's image
-    private JLabel[] statValueLabels; // Array of labels for displaying Pokemon stats
+    private JLabel lblPokemonName;
+    private JLabel imgLabel;
+    private JLabel[] statValueLabels;
 
     /**
      * Launch the application.
@@ -164,7 +164,7 @@ public class MainWindow extends JFrame {
         try {
             ImageIcon originalIcon = new ImageIcon(imgPath);
             Image scaledImage = originalIcon.getImage().getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_AREA_AVERAGING);
-            imgLabel.setIcon(new ImageIcon(scaledImage)); // Replace imgLabel with your JLabel
+            imgLabel.setIcon(new ImageIcon(scaledImage));
         } catch (Exception e) {
             imgLabel.setText("Image not found");
             e.printStackTrace();
@@ -183,11 +183,11 @@ public class MainWindow extends JFrame {
 
         String[] statNames = {"ID:", "Name:", "Type:", "HP:", "Attack:", "Defense:", "Special-Attack:", "Special-Defense:", "Speed:"};
 
-        statValueLabels = new JLabel[statNames.length]; // Initialize the array
+        statValueLabels = new JLabel[statNames.length];
 
         for (int i = 0; i < statNames.length; i++) {
             statsPanel.add(new JLabel(statNames[i]));
-            statValueLabels[i] = new JLabel(""); // Initialize each label
+            statValueLabels[i] = new JLabel("");
             statsPanel.add(statValueLabels[i]);
         }
 
@@ -219,7 +219,7 @@ public class MainWindow extends JFrame {
      * @param pokemon The Pokémon to display.
      */
     private void updateDisplay(Pokemon pokemon) {
-        lblPokemonName.setText(pokemon.getName()); // Assuming lblPokemonName is a JLabel for Pokemon's name
+        lblPokemonName.setText(pokemon.getName());
         updateImage(pokemon.getImgPath());
         updateStats(pokemon);
     }
@@ -238,7 +238,7 @@ public class MainWindow extends JFrame {
 
         // Create a JList to display the Pokémon in the evolution chain
         JList<Pokemon> list = new JList<>(new Vector<>(evolutionChain));
-        list.setCellRenderer(new PokemonListCellRenderer()); // Use a custom cell renderer for display
+        list.setCellRenderer(new PokemonListCellRenderer());
 
         // Add a listener to handle selection events on the list
         list.addListSelectionListener(e -> {
@@ -276,7 +276,7 @@ public class MainWindow extends JFrame {
     public void updateDisplayForId(int pokemonId) {
         Pokemon selectedPokemon = symbolTable.get(pokemonId);
         if (selectedPokemon != null) {
-            currentPokemonID = pokemonId; // Update the currentPokemonID
+            currentPokemonID = pokemonId;
             updateDisplay(selectedPokemon);
         }
     }
@@ -303,7 +303,7 @@ public class MainWindow extends JFrame {
             if (!symbolTable.isEmpty()) {
                 currentPokemonID--;
                 if (currentPokemonID < symbolTable.min().getId()) {
-                    currentPokemonID = symbolTable.max().getId(); // Loop to the last
+                    currentPokemonID = symbolTable.max().getId();
                 }
                 updateDisplay(symbolTable.get(currentPokemonID));
             }
@@ -318,7 +318,7 @@ public class MainWindow extends JFrame {
             if (!symbolTable.isEmpty()) {
                 currentPokemonID++;
                 if (currentPokemonID > symbolTable.max().getId()) {
-                    currentPokemonID = symbolTable.min().getId(); // Loop back to the first
+                    currentPokemonID = symbolTable.min().getId();
                 }
                 updateDisplay(symbolTable.get(currentPokemonID));
             }

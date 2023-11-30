@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
  * @author Joseph Peat
  */
 public class EvolutionGraph {
-    private Map<Integer, Set<Integer>> evolutionMap; // For tracking evolutions
-    private Map<Integer, Integer> preEvolutionMap;   // For tracking pre-evolutions
+    private Map<Integer, Set<Integer>> evolutionMap;
+    private Map<Integer, Integer> preEvolutionMap;
 
     public EvolutionGraph(PokemonSymbolTable symbolTable) {
         this.evolutionMap = new HashMap<>();
@@ -22,7 +22,7 @@ public class EvolutionGraph {
 
             if (evolvesToId != 0) {
                 addEvolution(pokemon.getId(), evolvesToId);
-                preEvolutionMap.put(evolvesToId, pokemon.getId()); // Track pre-evolution
+                preEvolutionMap.put(evolvesToId, pokemon.getId());
             }
         }
         addEeveeEvolutions();
@@ -113,7 +113,7 @@ public class EvolutionGraph {
         // Collect pre-evolutions
         Integer preEvoId = preEvolutionMap.get(pokemonId);
         while (preEvoId != null) {
-            evolutionChain.add(0, preEvoId); // Add at the beginning of the list
+            evolutionChain.add(0, preEvoId);
             preEvoId = preEvolutionMap.get(preEvoId);
         }
 

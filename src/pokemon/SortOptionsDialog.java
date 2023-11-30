@@ -17,7 +17,7 @@ public class SortOptionsDialog extends JDialog {
     private JRadioButton rbType = new JRadioButton("Type:");
     private boolean[] selection = new boolean[5]; // [ID, Name, Type]
     private boolean[] typeSelection;
-    private JCheckBox[] typeCheckboxes; // Array to store references to the checkboxes
+    private JCheckBox[] typeCheckboxes;
 
     /**
      * Constructor to create a sort options dialog.
@@ -58,7 +58,7 @@ public class SortOptionsDialog extends JDialog {
         for (int i = 0; i < types.length; i++) {
             final int index = i;
             typeCheckboxes[i] = new JCheckBox(types[i]);
-            typeCheckboxes[i].setEnabled(false); // Initially disabled
+            typeCheckboxes[i].setEnabled(false);
             typeChoicePanel.add(typeCheckboxes[i]);
             typeCheckboxes[i].addActionListener(e -> typeSelection[index] = typeCheckboxes[index].isSelected());
         }
@@ -67,7 +67,7 @@ public class SortOptionsDialog extends JDialog {
         rbType.addActionListener(e -> {
             boolean typeSelected = rbType.isSelected();
             for (JCheckBox checkBox : typeCheckboxes) {
-                checkBox.setEnabled(typeSelected); // Enable/disable based on rbType's state
+                checkBox.setEnabled(typeSelected);
             }
         });
 
@@ -139,7 +139,7 @@ public class SortOptionsDialog extends JDialog {
         JFrame tableFrame = new JFrame("Selected Data");
         tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         tableFrame.setSize(400, 300);
-        tableFrame.setLocation(this.getLocation()); // Set the frame at the same location as the dialog
+        tableFrame.setLocation(this.getLocation());
 
         // Add the table to a scroll pane and to the frame
         JScrollPane scrollPane = new JScrollPane(table);
@@ -154,9 +154,9 @@ public class SortOptionsDialog extends JDialog {
                     String idString = (String) table.getValueAt(selectedRow, 0);
                     try {
                         int selectedId = Integer.parseInt(idString);
-                        mainWindow.updateDisplayForId(selectedId); // Update the main window display
+                        mainWindow.updateDisplayForId(selectedId);
                     } catch (NumberFormatException ex) {
-                        ex.printStackTrace(); // Handle invalid ID format
+                        ex.printStackTrace();
                     }
                 }
             }
